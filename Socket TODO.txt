@@ -1,0 +1,24 @@
+(X, ) Move all #includes that the header depends on from the implementation file to the header file.
+
+(X,X) Add CSocketEvent class to handle the dispatch of socket messages to event handlers.
+
+(X,X) Error handling:
+	-socketErrorStr.
+	-GetSocketErrorStrFromCode() - Takes in a socket error code, and returns it's description as a string.
+	-In SocketEventProc(), using WSAGETSELECTERROR() and GetSocketErrorStrFromCode() to set socketErrorStr.
+	-In all CSocket methods, using WSAGetLastError() and GetSocketErrorStrFromCode() to set socketErrorStr.
+	
+(X,X) Get remote/local host/port
+
+(X,X) Add sockName to CSocket and its constructors
+
+(X,X) Keep track of socket state (disconnected, connected, listening, connecting)
+	-(Disconnected) ==> [Listen() function] ==> (Listening) ==> [Accept() function] ==> (Connected)
+	-(Disconnected) ==> [Connect() function] ==> (Connecting) ==> [OnConnect event] ==> (Connected)
+	-(NOT Disconnected) ==> [Disconnect() function] ==> (Disconnected)
+	-(NOT Disconnected) ==> [OnDisconnect event] ==>(Disconnected)
+
+(X,X) Allow accepting incomming connections on the listening socket, instead of spawning a new socket object
+	-Accept() - Establish connection on the current socket object, closing the listening socket handle
+	-AcceptSpawn() - Establish connection on a new socket object, leaving the listening socket handle open
+
